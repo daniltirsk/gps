@@ -48,7 +48,6 @@ int main(){
     for(int i=0; i<1023;i++){
         caBit = getBitG1(g1_codes) ^ getBitG2(g2_codes,PRN);
         cout<<caBit;
-        i++;
     }
     return 0;
 }
