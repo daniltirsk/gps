@@ -15,7 +15,32 @@ public:
     double y;
     double r;
 
-    vector<double> triangulate(Circle* c2){
+    vector<double> triangulate(Circle* c2, Circle* c3){
+        vector<double> points,pair1,pair2,pair3,intersection;
+        bool found = false;
+
+        pair1 = this->circleIntersection(c2);
+        pair2 = this->circleIntersection(c3);
+        pair3 = c2->circleIntersection(c3);
+
+        for (int i = 0 ; i<pair1.size();i+=2){
+            for (int j = 0 ; j<pair2.size();j+=2){
+                if(pair1[i] == pair2[j] && pair1[i+1] == pair2[j+1]){
+                    for (int k = 0 ; k<pair3.size();k+=2){
+                        if(pair1[i] == pair3[k] && pair1[i+1] == pair3[k+1]){
+                            intersection.push_back(pair1[i]);
+                            intersection.push_back(pair1[i+1]);
+                            return intersection;
+                        }
+                    }
+                }
+            }
+        }
+
+        return intersection;
+    }
+
+    vector<double> circleIntersection(Circle* c2){
         vector<double> intersections;
 
         double d=sqrt((c2->x-this->x)*(c2->x-this->x) + (c2->y-this->y)*(c2->y-this->y));
@@ -65,11 +90,12 @@ public:
 
 
 int main(){
-    Circle a = Circle(15,15,10);
+    Circle a = Circle(20,20,10);
     Circle b = Circle(10,10,10);
+    Circle c = Circle(10,30,10);
 
     vector<double> intersects;
-    intersects = a.triangulate(&b);
+    intersects = a.triangulate(&b,&c);
     for(int i=0; i<intersects.size();i+=2) cout<<"x: "<<intersects[i]<<" y: "<< intersects[i+1]<<endl;
     return 0;
 }
